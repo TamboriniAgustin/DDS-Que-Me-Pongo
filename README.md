@@ -11,7 +11,7 @@ una musculosa de mickey, una pollera amarilla y unas crocs.
 
 * Como primer paso para generar los atuendos, les usuaries de QuéMePongo identificaron el siguiente requerimiento como principal:
 
-* Como usuarie de QuéMePongo, quiero poder cargar prendas válidas para generar atuendos con ellas.
+** Como usuarie de QuéMePongo, quiero poder cargar prendas válidas para generar atuendos con ellas.
 
 * Y luego, al consultar más sobre este requerimiento general, logramos descomponerlo con mayor detalle en los siguientes:
 
