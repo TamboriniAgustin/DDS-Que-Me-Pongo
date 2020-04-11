@@ -9,11 +9,11 @@ tus anteojos de sol favoritos, una remera de mangas cortas azul, el pantalón qu
 un pañuelo verde, una remera de mangas largas rayada, un pantalón de jean y un par de botas de cuero.
 una musculosa de mickey, una pollera amarilla y unas crocs.
 
-* Como primer paso para generar los atuendos, les usuaries de QuéMePongo identificaron el siguiente requerimiento como principal:
+Como primer paso para generar los atuendos, les usuaries de QuéMePongo identificaron el siguiente requerimiento como principal:
 
-** Como usuarie de QuéMePongo, quiero poder cargar prendas válidas para generar atuendos con ellas.
+* Como usuarie de QuéMePongo, quiero poder cargar prendas válidas para generar atuendos con ellas.
 
-* Y luego, al consultar más sobre este requerimiento general, logramos descomponerlo con mayor detalle en los siguientes:
+Y luego, al consultar más sobre este requerimiento general, logramos descomponerlo con mayor detalle en los siguientes:
 
 * Como usuarie de QuéMePongo, quiero especificar qué tipo de prenda estoy cargando (zapatos, camisa de mangas cortas, pantalón, etc).
 
