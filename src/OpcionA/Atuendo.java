@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class CorrerPrograma {
 	public static void main(String[] args) {
-		  //Iniciar comportamiento
+
 	}
 }
 
@@ -22,78 +22,57 @@ class Atuendo {
 
 
 //Prendas
-abstract class Prenda {
+class Prenda {
+	TipoDePrenda tipo;
+	Material material;
+	Color color_principal;
+	Color color_secundario;
+	
+	Prenda(TipoDePrenda tipo, Material material, Color color_principal){
+		this.tipo = tipo;
+		this.material = material;
+		this.color_principal = color_principal;
+	}
+	
+	void agregarColorSecundario(Color color) {
+		this.color_secundario = color;
+	}
+}
+
+//Tipos de prenda
+abstract class TipoDePrenda {
 	Categoria categoria;
-	String tela;
-	String colorPrincipal;
-	String colorSecundario;
 	
-	Prenda(String tela_atuendo, String color_principal){
-		tela = tela_atuendo;
-		colorPrincipal = color_principal;
+	TipoDePrenda(Categoria categoria){
+		this.categoria = categoria;
 	}
 	
-	abstract void setCategoria();
-	void setColorSecundario(String color) {
-		colorSecundario = color;
+	Categoria categoria() {
+		return categoria;
 	}
 }
 
-class Zapato extends Prenda {
-	Zapato(String tela_atuendo, String color_principal) {
-		super(tela_atuendo, color_principal);
-	}
-	
-	void setCategoria(){
-		categoria = new Calzado();
-	}
+//Categorías de prenda
+enum Categoria {
+	ACCESORIO, CALZADO, SUPERIOR, INFERIOR
 }
 
-class RemeraMangaCorta extends Prenda {
-	RemeraMangaCorta(String tela_atuendo, String color_principal) {
-		super(tela_atuendo, color_principal);
-	}
-	
-	void setCategoria(){
-		categoria = new Superior();
-	}
+//Materiales
+enum Material {
+	ALGODON, CUERO
 }
 
-class Pantalon extends Prenda {
-	Pantalon(String tela_atuendo, String color_principal) {
-		super(tela_atuendo, color_principal);
-	}
+//Colores
+class Color {
+	int r;
+	int g;
+	int b;
+	double a;
 	
-	void setCategoria(){
-		categoria = new Inferior();
+	Color(int red, int green, int blue, double alpha){
+		r = red;
+		g = green;
+		b = blue;
+		a = alpha;
 	}
 }
-
-
-//Categorias de prendas
-interface Categoria {
-	
-}
-
-class Superior implements Categoria {
-	
-}
-
-class Inferior implements Categoria {
-	
-}
-
-class Calzado implements Categoria {
-	
-}
-
-class Accesorio implements Categoria {
-	
-}
-
-
-/** ALTERNATIVAS **/
-//Podría utilizarse herencia en las categorías al igual que en las prendas, dependiendo el comportamiento que se le otorgen en las siguientes iteraciones.
-//Los colores podrían representarse con herencia o interfaces, dependiendo el comportamiento que tengan en las siguientes iteraciones.
-//IDEM colores para los materiales o telas.
-//Podríamos tratar con excepciones e ifs el tema de las categorías, pero no es lo más ideal.
