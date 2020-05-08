@@ -50,98 +50,71 @@ class TipoDePrendaTest extends Instancias{
 
 class PrendaTest extends Instancias{
 	@Test
-	void prenda_sin_material_ni_color_primario_es_invalida() {
-		Prenda prenda = new Prenda(zapato);
-		prenda.setColorSecundario(rojo);
-		assertFalse(prenda.esValida());
-	}
-	@Test
-	void prenda_con_material_sin_color_primario_es_invalida() {
-		Prenda prenda = new Prenda(zapato);
+	void prenda_incompleta_no_se_genera() throws Exception {
 		zapato.nuevoMaterialCompatible(cuero);
+		BorradorPrenda prenda = new BorradorPrenda(zapato);
 		prenda.setMaterial(cuero);
-		assertFalse(prenda.esValida());
-	}
-	@Test
-	void prenda_sin_material_con_color_primario_es_invalida() {
-		Prenda prenda = new Prenda(zapato);
-		prenda.setColorPrincipal(rojo);
-		assertFalse(prenda.esValida());
-	}
-	@Test
-	void material_no_compatible_es_lanza_error() throws Exception {
-		Prenda prenda = new Prenda(zapato);
 		Assertions.assertThrows(RuntimeException.class, () -> {
-			prenda.setMaterial(cuero);
+			prenda.crearPrenda();
 		});
 	}
 	@Test
 	void prenda_valida_sin_color_secundario() {
-		Prenda prenda = new Prenda(zapato);
+		BorradorPrenda prenda = new BorradorPrenda(zapato);
 		zapato.nuevoMaterialCompatible(cuero);
 		prenda.setMaterial(cuero);
 		prenda.setColorPrincipal(rojo);
-		assertTrue(prenda.esValida());
+		prenda.crearPrenda();
 	}
 	@Test
 	void prenda_valida_con_color_secundario() {
-		Prenda prenda = new Prenda(zapato);
+		BorradorPrenda prenda = new BorradorPrenda(zapato);
 		zapato.nuevoMaterialCompatible(cuero);
 		prenda.setMaterial(cuero);
 		prenda.setColorPrincipal(rojo);
-		prenda.setColorSecundario(verde);
-		assertTrue(prenda.esValida());
+		prenda.setColorSecundario(azul);
+		prenda.crearPrenda();
 	}
 }
 
 class AtuendoTest extends Instancias {
 	@Test
-	void insertar_prenda_valida() {
-		//Genero la prenda válida
-		Prenda prenda1 = new Prenda(zapato);
+	void insertar_prenda() {
+		BorradorPrenda prenda = new BorradorPrenda(zapato);
 		zapato.nuevoMaterialCompatible(cuero);
-		prenda1.setMaterial(cuero);
-		prenda1.setColorPrincipal(rojo);
-		prenda1.setColorSecundario(negro);
+		prenda.setMaterial(cuero);
+		prenda.setColorPrincipal(rojo);
+		prenda.setColorSecundario(azul);
+		Prenda prendaGenerada = prenda.crearPrenda();
 		//Intento insertarla en el atuendo
 		Atuendo atuendo = new Atuendo();
-		atuendo.agregarPrenda(prenda1);
+		atuendo.agregarPrenda(prendaGenerada);
 		//Valido
 		assertEquals(1, atuendo.prendas.size());
 	}
 	@Test
-	void insertar_prenda_invalida() {
-		//Genero la prenda válida
-		Prenda prenda1 = new Prenda(zapato);
-		zapato.nuevoMaterialCompatible(cuero);
-		prenda1.setMaterial(cuero);
-		prenda1.setColorSecundario(negro);
-		//Intento insertarla en el atuendo
-		Atuendo atuendo = new Atuendo();
-		//Valido
-		Assertions.assertThrows(RuntimeException.class, () -> {
-			atuendo.agregarPrenda(prenda1);
-		});
-	}
-	@Test
 	void remover_una_prenda() {
 		//Genero las prendas válidas
-		Prenda prenda1 = new Prenda(zapato);
+		BorradorPrenda prenda = new BorradorPrenda(zapato);
 		zapato.nuevoMaterialCompatible(cuero);
-		prenda1.setMaterial(cuero);
-		prenda1.setColorPrincipal(rojo);
-		prenda1.setColorSecundario(negro);
+		prenda.setMaterial(cuero);
+		prenda.setColorPrincipal(rojo);
+		prenda.setColorSecundario(azul);
+		Prenda prendaGenerada1 = prenda.crearPrenda();
 		
-		Prenda prenda2 = new Prenda(camisa_blanca);
+		BorradorPrenda prenda2 = new BorradorPrenda(camisa_blanca);
 		camisa_blanca.nuevoMaterialCompatible(tela);
 		prenda2.setMaterial(tela);
 		prenda2.setColorPrincipal(blanco);
+		Prenda prendaGenerada2 = prenda2.crearPrenda();
+
 		
 		//Intentos insertarla en el atuendo y elimino una de ellas
 		Atuendo atuendo = new Atuendo();
-		atuendo.agregarPrenda(prenda1);
-		atuendo.agregarPrenda(prenda2);
-		atuendo.removerPrenda(prenda2);
+		atuendo.agregarPrenda(prendaGenerada1);
+		atuendo.agregarPrenda(prendaGenerada2);
+		
+		atuendo.removerPrenda(prendaGenerada2);
 		
 		//Valido
 		assertEquals(1, atuendo.prendas.size());
@@ -152,70 +125,77 @@ class UniformeTest extends Instancias {
 	@Test
 	void prenda_no_repetida_es_valida() {
 		//Genero la prenda válida
-		Prenda prenda1 = new Prenda(camisa_blanca);
+		BorradorPrenda prenda = new BorradorPrenda(camisa_blanca);
 		camisa_blanca.nuevoMaterialCompatible(tela);
-		prenda1.setMaterial(tela);
-		prenda1.setColorPrincipal(blanco);
+		prenda.setMaterial(tela);
+		prenda.setColorPrincipal(blanco);
+		Prenda prendaGenerada = prenda.crearPrenda();
 		//Intento insertarla en el atuendo
-		Atuendo atuendo = new Atuendo();
-		atuendo.agregarPrenda(prenda1);
+		Atuendo atuendo = new Uniforme();
+		atuendo.agregarPrenda(prendaGenerada);
 		//Valido
 		assertEquals(1, atuendo.prendas.size());
 	}
 	@Test
 	void inserto_uniforme_completo_correctamente() {
 		//Genero la prenda válida
-		Prenda prenda1 = new Prenda(camisa_blanca);
+		BorradorPrenda prendaS = new BorradorPrenda(camisa_blanca);
 		camisa_blanca.nuevoMaterialCompatible(tela);
-		prenda1.setMaterial(tela);
-		prenda1.setColorPrincipal(blanco);
+		prendaS.setMaterial(tela);
+		prendaS.setColorPrincipal(blanco);
+		Prenda prendaSuperior = prendaS.crearPrenda();
 		
-		Prenda prenda2 = new Prenda(pantalon);
+		BorradorPrenda prendaP = new BorradorPrenda(pantalon);
 		pantalon.nuevoMaterialCompatible(cuero);
-		prenda2.setMaterial(cuero);
-		prenda2.setColorPrincipal(negro);
+		prendaP.setMaterial(cuero);
+		prendaP.setColorPrincipal(negro);
+		Prenda prendaInferior = prendaP.crearPrenda();
 		
-		Prenda prenda3 = new Prenda(zapato);
+		BorradorPrenda prendaC = new BorradorPrenda(zapato);
 		zapato.nuevoMaterialCompatible(cuero);
-		prenda3.setMaterial(cuero);
-		prenda3.setColorPrincipal(negro);
+		prendaC.setMaterial(cuero);
+		prendaC.setColorPrincipal(negro);
+		prendaC.setColorSecundario(blanco);
+		Prenda prendaCalzado = prendaC.crearPrenda();
 		
 		//Intento insertarlas en el atuendo
 		Atuendo atuendo = new Uniforme();
-		atuendo.agregarPrenda(prenda1);
-		atuendo.agregarPrenda(prenda2);
-		atuendo.agregarPrenda(prenda3);
+		atuendo.agregarPrenda(prendaSuperior);
+		atuendo.agregarPrenda(prendaInferior);
+		atuendo.agregarPrenda(prendaCalzado);
 		
 		//Valido
 		assertEquals(3, atuendo.prendas.size());
 	}
 	@Test
-	void prenda_repetida_es_invalida_y_lanza_error() {
+	void categoria_repetida_es_invalida_y_lanza_error() {
 		//Genero la prenda válida
-		Prenda prenda1 = new Prenda(camisa_blanca);
+		BorradorPrenda prendaS = new BorradorPrenda(camisa_blanca);
 		camisa_blanca.nuevoMaterialCompatible(tela);
-		prenda1.setMaterial(tela);
-		prenda1.setColorPrincipal(blanco);
+		prendaS.setMaterial(tela);
+		prendaS.setColorPrincipal(blanco);
+		Prenda prendaSuperior = prendaS.crearPrenda();
 		//Intento insertarla en el atuendo
 		Atuendo atuendo = new Uniforme();
-		atuendo.agregarPrenda(prenda1);
+		atuendo.agregarPrenda(prendaSuperior);
 		//Valido
 		Assertions.assertThrows(RuntimeException.class, () -> {
-			atuendo.agregarPrenda(prenda1);
+			atuendo.agregarPrenda(prendaSuperior);
 		});
 	}
 	@Test
 	void inserto_categoria_no_permitida_y_lanza_error() {
 		//Genero la prenda válida
-		Prenda prenda1 = new Prenda(anteojos);
+		BorradorPrenda prenda = new BorradorPrenda(anteojos);
 		anteojos.nuevoMaterialCompatible(plastico);
-		prenda1.setMaterial(plastico);
-		prenda1.setColorPrincipal(negro);
+		prenda.setMaterial(plastico);
+		prenda.setColorPrincipal(negro);
+		Prenda prendaGenerada = prenda.crearPrenda();
 		//Intento insertarla en el atuendo
 		Atuendo atuendo = new Uniforme();
 		//Valido
 		Assertions.assertThrows(RuntimeException.class, () -> {
-			atuendo.agregarPrenda(prenda1);
+			atuendo.agregarPrenda(prendaGenerada);
 		});
 	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 //Sugerencias
@@ -35,12 +34,7 @@ class Atuendo {
 	ArrayList <Prenda> prendas = new ArrayList<>();
 	
 	public void agregarPrenda(Prenda prenda) {
-		if(prenda.esValida()){
-			prendas.add(prenda);
-		}
-		else {
-			throw new RuntimeException("La prenda aún no ha sido guardada correctamente");
-		}
+		prendas.add(prenda);
 	}
 	void removerPrenda (Prenda prenda) {
 		prendas.remove(prenda);
@@ -53,7 +47,7 @@ class Uniforme extends Atuendo {
 	
 	public void agregarPrenda(Prenda prenda){
 		if(this.tiene(prenda.categoria()) || !prendas_validas.contains(prenda.categoria())){
-			throw new RuntimeException("Ya se ha añadido una prenda de esta categoría al uniforme");
+			throw new RuntimeException("Ya se ha añadido una prenda de esta categoría al uniforme o la categoría no es válida");
 		}
 		else{
 			super.agregarPrenda(prenda);
@@ -65,16 +59,28 @@ class Uniforme extends Atuendo {
 }
 
 //Prendas
-class Prenda {
+class BorradorPrenda {
 	TipoDePrenda tipo;
 	Material material;
+	Trama trama = Trama.LISA; 
 	Color color_principal;
 	Color color_secundario;
 	
-	Prenda(TipoDePrenda tipo){
+	BorradorPrenda(TipoDePrenda tipo){
 		this.tipo = tipo;
 	}
 	
+	Prenda crearPrenda() {
+		if(this.estaLista()) {
+			return new Prenda(tipo, material, trama, color_principal, color_secundario);
+		}
+		else {
+			throw new RuntimeException("Debes validar correctamente la prenda antes de poder guardarla");
+		}
+	}
+	boolean estaLista() {
+		return material != null && color_principal != null;
+	}
 	void setMaterial(Material material){
 		if(tipo.esCompatibleCon(material)){
 			this.material = material;
@@ -83,20 +89,30 @@ class Prenda {
 			throw new RuntimeException("El material no es compatible con el tipo de prenda creado previamente");
 		}
 	}
+	void setTrama(Trama trama) {
+		if(trama != null) this.trama = trama;
+	}
 	void setColorPrincipal(Color color){
 		this.color_principal = color;
 	}
 	void setColorSecundario(Color color){
 		this.color_secundario = color;
 	}
-	private boolean tieneMaterialAsignado(){
-		return Objects.nonNull(material);
-	}
-	private boolean tieneColorAsignado(){
-		return Objects.nonNull(color_principal);
-	}
-	boolean esValida(){
-		return this.tieneMaterialAsignado() && this.tieneColorAsignado();
+}
+
+class Prenda {
+	TipoDePrenda tipo;
+	Material material;
+	Trama trama;
+	Color color_principal;
+	Color color_secundario;
+	
+	Prenda(TipoDePrenda tipo, Material material, Trama trama, Color cp, Color cs){
+		this.tipo = tipo;
+		this.material = material;
+		this.trama = trama;
+		this.color_principal = cp;
+		this.color_secundario = cs;
 	}
 	Categoria categoria(){
 		return this.tipo.categoria;
