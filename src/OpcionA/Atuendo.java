@@ -6,82 +6,115 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//Sugerencias
-class Sugerencia {
-	String institucion;
-	Prenda prenda_superior;
-	Prenda prenda_inferior;
-	Prenda calzado;
-	
-	Sugerencia(String institucion, Prenda superior, Prenda inferior, Prenda calzado){
-		this.institucion = institucion;
-		this.prenda_superior = superior;
-		this.prenda_inferior = inferior;
-		this.calzado = calzado;
+//Clima
+class Clima {	
+	public static double getTemperatura() {
+		//Double que retorna la temperatura actual
+		return 2.0;
 	}
-	
-	String verInstitucion(){
-		return "Sugerencia de " + this.institucion;
-	}
-	List<Prenda> verUniforme(){
-		List<Prenda> prendas = Arrays.asList(prenda_superior, prenda_inferior, calzado);
-		return prendas;
+	public static int getProbabilidadLluvia() {
+		//Int que retorna las probabilidades de lluvia
+		return 1;
 	}
 }
 
 //Atuendos
 class Atuendo {
-	ArrayList <Prenda> prendas = new ArrayList<>();
+	private List <Prenda> prendaSuperior = new ArrayList();
+	private List <Prenda> prendaInferior = new ArrayList();
+	private List <Prenda> calzado = new ArrayList();
+	private List <Prenda> accesorio = new ArrayList();
+	private int maximoPorCategoria = 1;
 	
-	public void agregarPrenda(Prenda prenda) {
-		prendas.add(prenda);
+	public Atuendo(List <Prenda> prendasSuperiores, List <Prenda> prendasInferiores, List <Prenda> calzados, List <Prenda> accesorios) {
+		this.prendaSuperior = prendasSuperiores;
+		this.prendaInferior = prendasInferiores;
+		this.calzado = calzados;
+		this.accesorio = accesorios;
 	}
-	void removerPrenda (Prenda prenda) {
-		prendas.remove(prenda);
+	
+	public void agregarPrendas(Prenda superior, Prenda inferior, Prenda calzado, Prenda accesorio) {
+		this.validarMaximoPrendas();
+		this.validarTemperaturaPrenda(superior);
+		this.validarTemperaturaPrenda(inferior);
+		this.validarTemperaturaPrenda(calzado);
+		this.validarTemperaturaPrenda(accesorio);
+		
+		this.prendaSuperior.add(superior);
+		this.prendaInferior.add(inferior);
+		this.calzado.add(calzado);
+		this.accesorio.add(accesorio);
+	}
+	private void validarMaximoPrendas() {
+		boolean cumplePrendaSuperior = (prendaSuperior.size() < maximoPorCategoria);
+		boolean cumplePrendaInferior = (prendaInferior.size() < maximoPorCategoria);
+		boolean cumpleCalzado = (calzado.size() < maximoPorCategoria);
+		boolean cumpleAccesorio = (accesorio.size() < maximoPorCategoria);
+		
+		if(!cumplePrendaSuperior || !cumplePrendaInferior || !cumpleCalzado || !cumpleAccesorio) {
+			throw new RuntimeException("No puedes añadir mas de " + maximoPorCategoria + " prendas por categoría");
+		}
+	}
+	private void validarTemperaturaPrenda(Prenda prenda) {
+		if(prenda.temperaturaMaxima() <= Clima.getTemperatura()) {
+			throw new RuntimeException("La prenda " + prenda + " no es apta para utilizar con la temperatura actual");
+		}
 	}
 }
 
 //Uniformes
-class Uniforme extends Atuendo {
-	List <Categoria> prendas_validas = Arrays.asList(Categoria.SUPERIOR, Categoria.INFERIOR, Categoria.CALZADO);
+class Uniforme {
+	private Prenda prendaSuperior;
+	private Prenda prendaInferior;
+	private Prenda calzado;
 	
-	public void agregarPrenda(Prenda prenda){
-		if(this.tiene(prenda.categoria()) || !prendas_validas.contains(prenda.categoria())){
-			throw new RuntimeException("Ya se ha añadido una prenda de esta categoría al uniforme o la categoría no es válida");
-		}
-		else{
-			super.agregarPrenda(prenda);
-		}
+	public Uniforme(Prenda superior, Prenda inferior, Prenda calzado) {
+		this.prendaSuperior = superior;
+		this.prendaInferior = inferior;
+		this.calzado = calzado;
 	}
-	boolean tiene(Categoria categoria){
-		return prendas.stream().anyMatch(prenda -> categoria.equals(prenda.categoria()));
+}
+
+//Sastres
+abstract class Sastre {
+	protected abstract Prenda fabricarParteSuperior();
+	protected abstract Prenda fabricarParteInferior();
+	protected abstract Prenda fabricarCalzado();
+	protected abstract Prenda fabricarAccesorio();
+	
+	public void fabricarUniforme() {
+		new Uniforme(this.fabricarParteSuperior(), this.fabricarParteInferior(), this.fabricarCalzado());
+	}
+	public void sugerirAtuendo(Atuendo atuendo) {
+		atuendo.agregarPrendas(this.fabricarParteSuperior(), this.fabricarParteInferior(), this.fabricarCalzado(), this.fabricarAccesorio());
 	}
 }
 
 //Prendas
 class BorradorPrenda {
-	TipoDePrenda tipo;
-	Material material;
-	Trama trama = Trama.LISA; 
-	Color color_principal;
-	Color color_secundario;
+	private TipoDePrenda tipo;
+	private Material material;
+	private Trama trama = Trama.LISA; 
+	private Color color_principal;
+	private Color color_secundario;
+	private double temperaturaMaxSoportada = 0;
 	
-	BorradorPrenda(TipoDePrenda tipo){
+	public BorradorPrenda(TipoDePrenda tipo){
 		this.tipo = tipo;
 	}
 	
-	Prenda crearPrenda() {
+	public Prenda crearPrenda() {
 		if(this.estaLista()) {
-			return new Prenda(tipo, material, trama, color_principal, color_secundario);
+			return new Prenda(tipo, material, trama, color_principal, color_secundario, temperaturaMaxSoportada);
 		}
 		else {
 			throw new RuntimeException("Debes validar correctamente la prenda antes de poder guardarla");
 		}
 	}
-	boolean estaLista() {
+	private boolean estaLista() {
 		return material != null && color_principal != null;
 	}
-	void setMaterial(Material material){
+	public void setMaterial(Material material){
 		if(tipo.esCompatibleCon(material)){
 			this.material = material;
 		}
@@ -89,49 +122,60 @@ class BorradorPrenda {
 			throw new RuntimeException("El material no es compatible con el tipo de prenda creado previamente");
 		}
 	}
-	void setTrama(Trama trama) {
-		if(trama != null) this.trama = trama;
+	public void setTemperaturaMaxima(double temperatura) {
+		this.temperaturaMaxSoportada = temperatura;
 	}
-	void setColorPrincipal(Color color){
+	public void setTrama(Trama trama) {
+		this.trama = trama;
+	}
+	public void setColorPrincipal(Color color){
 		this.color_principal = color;
 	}
-	void setColorSecundario(Color color){
+	public void setColorSecundario(Color color){
 		this.color_secundario = color;
 	}
 }
 
 class Prenda {
-	TipoDePrenda tipo;
-	Material material;
-	Trama trama;
-	Color color_principal;
-	Color color_secundario;
+	private TipoDePrenda tipo;
+	private Material material;
+	private Trama trama;
+	private Color color_principal;
+	private Color color_secundario;
+	private double temperaturaMaxSoportada;
 	
-	Prenda(TipoDePrenda tipo, Material material, Trama trama, Color cp, Color cs){
+	public Prenda(TipoDePrenda tipo, Material material, Trama trama, Color cp, Color cs, double temperatura){
 		this.tipo = tipo;
 		this.material = material;
 		this.trama = trama;
 		this.color_principal = cp;
 		this.color_secundario = cs;
+		this.temperaturaMaxSoportada = temperatura;
 	}
-	Categoria categoria(){
-		return this.tipo.categoria;
+	public Categoria categoria(){
+		return this.tipo.getCategoria();
+	}
+	public double temperaturaMaxima() {
+		return this.temperaturaMaxSoportada;
 	}
 }
 
 //Tipos de prenda
 class TipoDePrenda {
-	Categoria categoria;
-	Set <Material> materiales_compatibles = new HashSet<>();
+	private Categoria categoria;
+	private Set <Material> materiales_compatibles = new HashSet<>();
 	
-	TipoDePrenda(Categoria categoria){
+	public TipoDePrenda(Categoria categoria){
 		this.categoria = categoria;
 	}
 	
-	void nuevoMaterialCompatible(Material material){
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void nuevoMaterialCompatible(Material material){
 		materiales_compatibles.add(material);
 	}
-	boolean esCompatibleCon(Material material){
+	public boolean esCompatibleCon(Material material){
 		return materiales_compatibles.contains(material);
 	}
 }
@@ -143,9 +187,9 @@ enum Categoria {
 
 //Materiales
 class Material {
-	Trama trama = Trama.LISA;
+	private Trama trama = Trama.LISA;
 	
-	void setTrama(Trama trama){
+	public void setTrama(Trama trama){
 		this.trama = trama;
 	}
 }
@@ -157,15 +201,17 @@ enum Trama {
 
 //Colores
 class Color {
-	int r;
-	int g;
-	int b;
-	double a;
+	private int r;
+	private int g;
+	private int b;
+	private double a;
 	
-	Color(int red, int green, int blue, double alpha){
+	public Color(int red, int green, int blue, double alpha){
 		r = red;
 		g = green;
 		b = blue;
 		a = alpha;
 	}
 }
+
+//Condiciones Climáticas
