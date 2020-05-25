@@ -31,7 +31,7 @@ class TipoDePrendaTest extends Instancias{
 	void agrego_2_materiales_correctamente() {
 		camisa_verde.nuevoMaterialCompatible(tela);
 		camisa_verde.nuevoMaterialCompatible(plastico);
-		assertEquals(2, camisa_verde.materiales_compatibles.size());
+		assertEquals(2, camisa_verde.getCantidadMaterialesCompatibles());
 	}
 	@Test
 	void material_no_agregado_no_es_compatible() {
@@ -76,125 +76,42 @@ class PrendaTest extends Instancias{
 	}
 }
 
-class AtuendoTest extends Instancias {
+class SastreTest extends Instancias {
 	@Test
-	void insertar_prenda() {
-		BorradorPrenda prenda = new BorradorPrenda(zapato);
-		zapato.nuevoMaterialCompatible(cuero);
-		prenda.setMaterial(cuero);
-		prenda.setColorPrincipal(rojo);
-		prenda.setColorSecundario(azul);
-		Prenda prendaGenerada = prenda.crearPrenda();
-		//Intento insertarla en el atuendo
-		Atuendo atuendo = new Atuendo();
-		atuendo.agregarPrenda(prendaGenerada);
-		//Valido
-		assertEquals(1, atuendo.prendas.size());
+	void sastre_crea_uniforme() {
+		
 	}
 	@Test
-	void remover_una_prenda() {
-		//Genero las prendas válidas
-		BorradorPrenda prenda = new BorradorPrenda(zapato);
-		zapato.nuevoMaterialCompatible(cuero);
-		prenda.setMaterial(cuero);
-		prenda.setColorPrincipal(rojo);
-		prenda.setColorSecundario(azul);
-		Prenda prendaGenerada1 = prenda.crearPrenda();
+	void sastre_crea_atuendo() {
 		
-		BorradorPrenda prenda2 = new BorradorPrenda(camisa_blanca);
-		camisa_blanca.nuevoMaterialCompatible(tela);
-		prenda2.setMaterial(tela);
-		prenda2.setColorPrincipal(blanco);
-		Prenda prendaGenerada2 = prenda2.crearPrenda();
-
+	}
+	@Test 
+	void sastre_no_crea_atuendo_porque_la_categoria_supera_al_maximo_por_atuendo() {
+	
+	}
+	@Test
+	void sastre_no_crea_atuendo_porque_alguna_prenda_no_se_adecua_a_la_temperatura() {
 		
-		//Intentos insertarla en el atuendo y elimino una de ellas
-		Atuendo atuendo = new Atuendo();
-		atuendo.agregarPrenda(prendaGenerada1);
-		atuendo.agregarPrenda(prendaGenerada2);
-		
-		atuendo.removerPrenda(prendaGenerada2);
-		
-		//Valido
-		assertEquals(1, atuendo.prendas.size());
 	}
 }
 
-class UniformeTest extends Instancias {
+class ClimaTest extends Instancias {
+	//Testeo la funcionalidad de clima en Buenos Aires, para que la API no genere costos adicionales utilizaremos un MOCK
 	@Test
-	void prenda_no_repetida_es_valida() {
-		//Genero la prenda válida
-		BorradorPrenda prenda = new BorradorPrenda(camisa_blanca);
-		camisa_blanca.nuevoMaterialCompatible(tela);
-		prenda.setMaterial(tela);
-		prenda.setColorPrincipal(blanco);
-		Prenda prendaGenerada = prenda.crearPrenda();
-		//Intento insertarla en el atuendo
-		Atuendo atuendo = new Uniforme();
-		atuendo.agregarPrenda(prendaGenerada);
-		//Valido
-		assertEquals(1, atuendo.prendas.size());
+	void obtengo_temperatura_bsas() {
+		
 	}
 	@Test
-	void inserto_uniforme_completo_correctamente() {
-		//Genero la prenda válida
-		BorradorPrenda prendaS = new BorradorPrenda(camisa_blanca);
-		camisa_blanca.nuevoMaterialCompatible(tela);
-		prendaS.setMaterial(tela);
-		prendaS.setColorPrincipal(blanco);
-		Prenda prendaSuperior = prendaS.crearPrenda();
+	void obtengo_precipitaciones_bsas() {
 		
-		BorradorPrenda prendaP = new BorradorPrenda(pantalon);
-		pantalon.nuevoMaterialCompatible(cuero);
-		prendaP.setMaterial(cuero);
-		prendaP.setColorPrincipal(negro);
-		Prenda prendaInferior = prendaP.crearPrenda();
+	}
+	//Acá los gastos no serán reales, solo se verificará a través del MOCK que la funcionalidad sea correcta
+	@Test
+	void uso_la_app_10_veces_y_no_hay_costo_adicional() {
 		
-		BorradorPrenda prendaC = new BorradorPrenda(zapato);
-		zapato.nuevoMaterialCompatible(cuero);
-		prendaC.setMaterial(cuero);
-		prendaC.setColorPrincipal(negro);
-		prendaC.setColorSecundario(blanco);
-		Prenda prendaCalzado = prendaC.crearPrenda();
-		
-		//Intento insertarlas en el atuendo
-		Atuendo atuendo = new Uniforme();
-		atuendo.agregarPrenda(prendaSuperior);
-		atuendo.agregarPrenda(prendaInferior);
-		atuendo.agregarPrenda(prendaCalzado);
-		
-		//Valido
-		assertEquals(3, atuendo.prendas.size());
 	}
 	@Test
-	void categoria_repetida_es_invalida_y_lanza_error() {
-		//Genero la prenda válida
-		BorradorPrenda prendaS = new BorradorPrenda(camisa_blanca);
-		camisa_blanca.nuevoMaterialCompatible(tela);
-		prendaS.setMaterial(tela);
-		prendaS.setColorPrincipal(blanco);
-		Prenda prendaSuperior = prendaS.crearPrenda();
-		//Intento insertarla en el atuendo
-		Atuendo atuendo = new Uniforme();
-		atuendo.agregarPrenda(prendaSuperior);
-		//Valido
-		Assertions.assertThrows(RuntimeException.class, () -> {
-			atuendo.agregarPrenda(prendaSuperior);
-		});
-	}
-	@Test
-	void inserto_categoria_no_permitida_y_lanza_error() {
-		//Genero la prenda válida
-		BorradorPrenda prenda = new BorradorPrenda(anteojos);
-		anteojos.nuevoMaterialCompatible(plastico);
-		prenda.setMaterial(plastico);
-		prenda.setColorPrincipal(negro);
-		Prenda prendaGenerada = prenda.crearPrenda();
-		//Intento insertarla en el atuendo
-		Atuendo atuendo = new Uniforme();
-		//Valido
-		Assertions.assertThrows(RuntimeException.class, () -> {
-			atuendo.agregarPrenda(prendaGenerada);
-		});
+	void uso_la_app_10_veces_y_hay_costo_adicional() {
+		
 	}
 }

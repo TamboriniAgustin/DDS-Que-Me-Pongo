@@ -1,18 +1,24 @@
 /** EJERCICIO - ¿QUÉ ME PONGO? - Diseño de Sistemas - Agustín Tamborini **/
 package OpcionA;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//Clima
-class Clima {	
+//Clima (Se incorpora la dependencia necesaria)
+class Clima {
+	static int cantidadUsosDiarios = 0;
+	static double gastosDiarios = 0;
+	
 	public static double getTemperatura() {
+		if(cantidadUsosDiarios > 10) gastosDiarios += 0.5;
+		cantidadUsosDiarios++;
 		//Double que retorna la temperatura actual
 		return 2.0;
 	}
 	public static int getProbabilidadLluvia() {
+		if(cantidadUsosDiarios > 10) gastosDiarios += 0.5;
+		cantidadUsosDiarios++;
 		//Int que retorna las probabilidades de lluvia
 		return 1;
 	}
@@ -172,6 +178,9 @@ class TipoDePrenda {
 	public Categoria getCategoria() {
 		return categoria;
 	}
+	public int getCantidadMaterialesCompatibles() {
+		return materiales_compatibles.size();
+	}
 	public void nuevoMaterialCompatible(Material material){
 		materiales_compatibles.add(material);
 	}
@@ -213,5 +222,3 @@ class Color {
 		a = alpha;
 	}
 }
-
-//Condiciones Climáticas
