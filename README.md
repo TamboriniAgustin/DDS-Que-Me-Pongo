@@ -1,4 +1,10 @@
-# Qué Me Pongo
+# Qué Me Pongo - Resoluciones
+
+## Quinta Iteración
+
+![¡¡No se ha podido cargar la imagen!!](http://www.plantuml.com/plantuml/png/dLHTgzf047tFhrXyYaK5tqkmj58AVP1AVy2usSQ1P3UTtRLGs_z-epkQoIK9tEkBavbpvkCSs9qFG24sTQPhy5uToDWIhfcw_JQRJGgUd_ao-vzbSFA1G0ULECTOcOwcaNdSHBNtlvJw6e5A878jgAgFirIzE2mLQDC6e7mfScJq6Vu2fRclnns0u9lrXZhQTQnJbvZYxMjiq4xmUj9F7u7GCUeO26sbh6jEP0QfjWF_SLGE3Yf_HoGaSNlES4qO3A6Jjo9VajJRMqcRa4_IkrbFyXVpHhA_QOFCpWV-hTGyNohNIpmrT2LiKFuPZdZ-_cR2Fa5a2zbGLKPZqQNSq1HEVaSVFZAwK345_hEp1qCDUkS5B0bMi6AoqYzOY0tz3wFnX3Ue5B4YKy73X75lHK5IUALF-UCytdUewyNf6Un8Ns71l6syumn3UYFjNCTsNQZ5XqMwRbYhpQ-Ggdsp8OAmEjyXsmMVaucvt7pxQ3x-TDnX_mebPeoz5QF0NTStDlKB)
+
+# Qué Me Pongo - Consignas
 
 QuéMePongo es una empresa dedicada al armado de atuendos adecuados a las condiciones climáticas y preferencias de sus clientes. El servicio que provee se basa en tomar las prendas del guardarropas de une usuarie y generar diferentes combinaciones posibles que cubran las necesidades de les mismes en términos de distintos factores climáticos tales como temperatura, viento, sol, lluvia, etc. Asimismo, se busca que estos atuendos se adecuen de la mejor forma a las sensibilidades particulares respecto de dichos factores de cada usuarie y a sus gustos en el aspecto estético.
 
@@ -81,4 +87,24 @@ Además, tras investigar en el mercado encontramos que la conocida empresa AccuW
 List<Map<String, Object>> condicionesClimaticas = apiClima.getWeather(“Buenos Aires, Argentina”);  condicionesClimaticas.get(0).get("PrecipitationProbability"); //Devuelve un número del 0 al 1" --> Ejemplo de integración
 
 Nos cobra 0,05 USD por cada vez que la llamamos a partir del décimo llamado diario.
+
+## Quinta Iteración
+
+En esta iteración continuaremos trabajando sobre las sugerencias de atuendos:
+
+* Como usuarie de QuéMePongo, quiero compartir mis guardarropas con otras personas.
+
+Por ahora, comenzaremos atacando los siguientes requerimientos específicos:
+
+* Como usuarie de QuéMePongo, quiero poder manejar varios guardarropas para separar mis prendas según diversos criterios (ropa de viaje, ropa de entrecasa, etc). 
+
+* Como usuarie de QuéMePongo, quiero poder crear guardarropas compartidos con otros usuaries (ej, ropa que comparto con mi hermane). 
+
+* Como usuarie de QuéMePongo, quiero que otro usuario me proponga tentativamente agregar una prenda al guardarropas.
+
+* Como usuarie de QuéMePongo, quiero que otro usuario me proponga tentativamente quitar una prenda del guardarropas.
+
+* Como usuarie de QuéMePongo, necesito ver todas las propuestas de modificación (agregar o quitar prendas) del guardarropas y poder aceptarlas o rechazarlas..
+
+* Como usuarie de QuéMePongo, quiero poder deshacer las propuestas de modificación que haya aceptado.
 
