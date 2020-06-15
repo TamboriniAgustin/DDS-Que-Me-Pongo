@@ -1,4 +1,4 @@
 # Qué Me Pongo - Resoluciones
 
 ## Primera Iteración
-![¡¡No se ha podido cargar la imagen!!](http://www.plantuml.com/plantuml/png/RP1FQuGm4CNl-HI3nwAoRlz3AIjP2mjsbRMzz6Qjs40qIuodjj-zIJCJABkNyEOtBvCtsSocrMOP9UEodUTL1W_VIGA-M2EyX8l0hf1TWmhi1jajf2cYEqJtGAvinLZd1DIwdpxQBmO0B-Aejhq7O6pXu7DhUYrQ2ICA1xcIIaFdpbgBgHF74zxqtMBdQA7O3puLvjE3t8uSb1qA7IbhxgTb32rlR5xhuh2h3Z7iza-eU5w-vTigXfppegaifBiKsIzLb7aCPRwtPvgc5CP7_NE8oO0cCP1u9-4YCVoKH8lXqoIF46NHltKO5cX3HrZYx7sAUTfSHpuUszZ6CifV)
+![¡¡No se ha podido cargar la imagen!!](http://www.plantuml.com/plantuml/png/RO_1JiCm38RlUGghvwuIF01Qb1LfKbch5IxSGeYAfRIPtFI4U7TIF3EXSed-_FvjVzxFoL9Qng1SiFCC7VdftNug07Z6IpnuDY3bpse-sUG9RO3nAbRJn109tFfsX9F3oyRllLlo7CAeldZLRRuiD3Rv8H9QSA9os4_B-5lYOF_IrUTZUoxXU7gyAgERLtreIz36r7sRJUaLP3wgRdG9ZJxbjwegWM7KdmHE2KZ48E9Dn8ga61fsXCD7sZr0SLVyEKV9XsESk1tnRxzWRelt1UEfVIuiO_W6)
